@@ -9,10 +9,12 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.89"]
                  [org.clojure/core.async "0.2.385"
-                  :exclusions [org.clojure/tools.reader]]]
+                  :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/test.check "0.9.0"]]
 
   :plugins [[lein-figwheel "0.5.4-7"]
-            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
+            [lein-doo "0.1.7"]]
 
   :source-paths ["src"]
 
@@ -43,6 +45,11 @@
                ;; This next build is an compressed minified build for
                ;; production. You can build this with:
                ;; lein cljsbuild once min
+               {:id "test"
+                :source-paths ["src" "test"]
+                :compiler {:main land-of-clojurescript.test
+                           :output-to "resources/public/js/compiled/land_of_clojurescript_test.js"
+                           :optimizations :none}}
                {:id "min"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/land_of_clojurescript.js"
