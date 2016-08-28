@@ -15,6 +15,11 @@
    (reaction (:running? @db))))
 
 (r/reg-sub-raw
+ :dragging?
+ (fn [db _]
+   (reaction (:dragging? @db))))
+
+(r/reg-sub-raw
  :position
  (fn [db _]
    (reaction (:position @db))))
@@ -31,6 +36,18 @@
  :toggle-running
  (fn [db _]
    (update db :running? not)))
+
+(r/reg-event-db
+ :set-dragging
+ [r/trim-v]
+ (fn [db [dragging?]]
+   (assoc db :dragging? dragging?)))
+
+(r/reg-event-db
+ :set-position
+ [r/trim-v]
+ (fn [db [position]]
+   (assoc db :position position)))
 
 (r/reg-event-db
  :update-box
@@ -57,18 +74,34 @@
               :position {:x (+ x vx) :y (+ y vy)}
               :velocity {:vx vx' :vy vy'})))))
 
+(r/reg-event-db
+ :drag-box
+ [r/trim-v]
+ (fn [db [position]]
+   (if-not (:dragging? db)
+     db
+     (assoc db :position position))))
+
 (defn app []
   (let [position (r/subscribe [:position])
         running? (r/subscribe [:running?])]
     [:div
      [:div
       [:svg {:view-box (str "0 0 " width " " height)
-             :style {:width 400 :height 400 :border "1px solid"}}
+             :style {:width 400 :height 400 :border "1px solid"}
+             :on-mouse-move (fn [e]
+                              (let [pos {:x (- (int (/ (.-clientX e) 4))
+                                               (/ box-size 2))
+                                         :y (- (int (/ (.-clientY e) 4))
+                                               (/ box-size 2))}]
+                                (r/dispatch [:drag-box pos])))}
        [:rect {:style {:fill :red}
                :width box-size
                :height box-size
                :x (:x @position)
-               :y (:y @position)}]]]
+               :y (:y @position)
+               :on-mouse-down #(r/dispatch [:set-dragging true])
+               :on-mouse-up #(r/dispatch [:set-dragging false])}]]]
      [:div
       [:button {:on-click #(r/dispatch [:toggle-running])}
        (if @running? "stop" "start")]]]))
