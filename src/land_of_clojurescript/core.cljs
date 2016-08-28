@@ -1,16 +1,19 @@
 (ns land-of-clojurescript.core
-  (:require ))
+  (:require [reagent.core :as reagent]
+            [re-frame.core :as r]))
 
 (enable-console-print!)
 
-(println "This text is printed from src/land-of-clojurescript/core.cljs. Go ahead and edit it and see reloading in action.")
+(defn app []
+  [:svg {:view-box "0 0 100 100"
+         :style {:width 400 :height 400}}
+   [:linearGradient#gradient
+    [:stop {:offset "0%" :style {:stop-color :yellow}}]
+    [:stop {:offset "100%" :style {:stop-color :green}}]]
+   [:rect {:x 0 :y 0 :width 100 :height 100 :style {:fill "url(#gradient)"}}]
+   [:circle {:cx 50 :cy 50 :r 30 :style {:fill "url(#gradient)"}}]])
 
-;; define your app data so that it doesn't get over-written on reload
+(defn main []
+  (reagent/render [app] (.getElementById js/document "app")))
 
-(defonce app-state (atom {:text "Hello world!"}))
-
-(defn on-js-reload []
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-)
+(.addEventListener js/window "load" main)
