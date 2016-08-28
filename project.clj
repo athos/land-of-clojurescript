@@ -24,27 +24,14 @@
               [{:id "dev"
                 :source-paths ["src"]
 
-                ;; the presence of a :figwheel configuration here
-                ;; will cause figwheel to inject the figwheel client
-                ;; into your build
-                :figwheel {:on-jsload "land-of-clojurescript.core/on-js-reload"
-                           ;; :open-urls will pop open your application
-                           ;; in the default browser once Figwheel has
-                           ;; started and complied your application.
-                           ;; Comment this out once it no longer serves you.
-                           :open-urls ["http://localhost:3449/index.html"]}
+                :figwheel true
 
                 :compiler {:main land-of-clojurescript.core
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/land_of_clojurescript.js"
                            :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true
-                           ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
-                           ;; https://github.com/binaryage/cljs-devtools
                            :preloads [devtools.preload]}}
-               ;; This next build is an compressed minified build for
-               ;; production. You can build this with:
-               ;; lein cljsbuild once min
                {:id "test"
                 :source-paths ["src" "test"]
                 :compiler {:main land-of-clojurescript.test
