@@ -1,10 +1,10 @@
 # land-of-clojurescript
 
-FIXME: Write a one-line description of your library/project.
+A ClojureScript port of the code from "Land of Lisp", mainly for the "Dice of Doom" game.
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+This is a personal project to port the code of "Dice of Doom", a game described in "Land of Lisp".
 
 ## Setup
 
@@ -34,6 +34,6 @@ get live reloading, nor a REPL.
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2016 Shogo Ohta
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
