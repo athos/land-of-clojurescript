@@ -29,20 +29,21 @@
                 :figwheel true
 
                 :compiler {:main land-of-clojurescript.core
-                           :asset-path "js/compiled/out"
+                           :asset-path "js/compiled/dev/out"
                            :output-to "resources/public/js/compiled/land_of_clojurescript.js"
-                           :output-dir "resources/public/js/compiled/out"
+                           :output-dir "resources/public/js/compiled/dev/out"
                            :source-map-timestamp true
                            :preloads [devtools.preload]}}
                {:id "test"
                 :source-paths ["src" "test"]
                 :compiler {:main land-of-clojurescript.test
-                           :output-to "resources/public/js/compiled/land_of_clojurescript_test.js"
+                           :output-to "resources/public/js/compiled/land_of_clojurescript.js"
+                           :output-dir "resources/public/js/compiled/test/out"
                            :optimizations :none}}
                {:id "min"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/land_of_clojurescript.js"
-                           :main land-of-clojurescript.core
+                :compiler {:main land-of-clojurescript.core
+                           :output-to "resources/public/js/compiled/land_of_clojurescript.js"
                            :optimizations :advanced
                            :pretty-print false}}]}
 
